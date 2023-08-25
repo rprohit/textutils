@@ -1,3 +1,40 @@
 # https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Disallow:
+
+
+
+
+
+
+
+Sure, you can update the code to use "isOkay" instead of "isHealthy". Here's the modified version:
+
+```java
+import java.util.Map;
+import java.util.stream.Collectors;
+
+public class MapVerifier {
+
+    public static boolean isOkayValue(Object value) {
+        return value instanceof Boolean;
+    }
+
+    public static boolean verifyIsOkay(Map<String, Object> payload) {
+        return payload.values().stream()
+                .filter(innerObject -> innerObject instanceof Map)
+                .map(innerMap -> (Map<String, Object>) innerMap)
+                .allMatch(innerMap -> innerMap.containsKey("IsOkay") && isOkayValue(innerMap.get("IsOkay")));
+    }
+
+    public static void main(String[] args) {
+        // Your deserialized map goes here
+        Map<String, Object> payload = ...;
+
+        boolean allOkay = verifyIsOkay(payload);
+        System.out.println("All 'IsOkay' values are " + (allOkay ? "okay" : "not okay"));
+    }
+}
+```
+
+Just replace `...` in the `main` method with your actual deserialized map. This code uses the term "isOkay" instead of "isHealthy" while maintaining the same logic and structure.
